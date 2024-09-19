@@ -1,0 +1,31 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "wc-bretagne-2024/demo",
+  "version": "1.0.0",
+  "title": "Block Demo",
+  "category": "widgets",
+  "description": "Demo for WC Bretagne 2024",
+  "supports": {
+    "html": false
+  },
+  "attributes": {
+    "suffix": {
+      "type": "string",
+      "default": ""
+    },
+    "prefix": {
+      "type": "string",
+      "default": ""
+    },
+    "content": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./index.css",
+  "textdomain": "wc-bretagne-2024",
+  "render": "file:./render.php"
+}

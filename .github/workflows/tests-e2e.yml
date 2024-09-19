@@ -1,0 +1,93 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+
+name: E2E Tests
+
+on: # yamllint disable-line rule:truthy
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'includes/**'
+      - 'tests/**'
+      - 'composer.json'
+      - '.github/workflows/tests.yml'
+  push:
+    paths:
+      - 'src/**'
+      - 'includes/**'
+      - 'tests/**'
+      - 'composer.json'
+    branches:
+      - "main"
+      - "develop"
+
+jobs:
+  test-js:
+    strategy:
+      fail-fast: false
+      matrix:
+        php_version: [ '8.0', '8.1', '8.2', '8.3' ]
+        core: [ '6.3','6.4', '6.5', '6.6' ]
+    name: E2E - WP ${{ matrix.core }} php@${{ matrix.php_version }}
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php_version }}
+          ini-file: development
+          coverage: none
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Override PHP version in composer.json
+        run: composer config platform.php ${{ matrix.php_version }}
+
+      - name: Composer install
+        run: composer install -o
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.11.*'
+          cache: npm
+
+      - name: Install Node JS
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Launch environment
+        run: WP_ENV_PHP_VERSION=${{ matrix.php_version }} WP_ENV_CORE=WordPress/WordPress#${{ matrix.core }} npm run env:start-ci
+
+      - name: Updates dependencies for tests
+        run: npm run env run tests-wordpress composer update -- -W --working-dir=/var/www/html/wp-content/plugins/wc-bretagne-2024/
+
+      - name: Compile CSS/JS
+        run: npm run build
+
+      - name: Tests E2E
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+        run: npm run test:e2e
+
+      - name: Archive debug artifacts (screenshots, traces)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: failures-artifacts-WP@${{ matrix.core }}-PHP@${{ matrix.php_version }}
+          path: artifacts/test-results
+          if-no-files-found: ignore

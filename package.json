@@ -1,0 +1,78 @@
+{
+  "name": "wc-bretagne-2024",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "wp-scripts start",
+    "build": "wp-scripts build",
+    "format": "wp-scripts format ./src",
+    "lint:css": "wp-scripts lint-style",
+    "lint:js": "wp-scripts lint-js ./src",
+    "plugin-zip": "wp-scripts plugin-zip",
+    "env": "wp-env",
+    "env:start": "wp-env start --xdebug=coverage",
+    "env:start-ci": "wp-env start",
+    "env:stop": "wp-env stop",
+    "env:reset": "wp-env clean",
+    "env:destroy": "wp-env destroy",
+    "env:cli": "wp-env run cli",
+    "env:tests-cli": "wp-env run tests-cli",
+    "pretest:php": "npm run env run tests-wordpress composer update -- -W --working-dir=/var/www/html/wp-content/plugins/wc-bretagne-2024/",
+    "test:php": "wp-env run tests-wordpress /var/www/html/wp-content/plugins/wc-bretagne-2024/vendor/bin/phpunit -c /var/www/html/wp-content/plugins/wc-bretagne-2024/phpunit.xml.dist -- --coverage-html=/var/www/html/wp-content/plugins/wc-bretagne-2024/coverage/",
+    "test:e2e": "wp-scripts test-playwright --config tests/playwright/playwright.config.js",
+    "i18n:make-pot": "npm run env run cli wp i18n make-pot /var/www/html/wp-content/plugins/wc-bretagne-2024/ /var/www/html/wp-content/plugins/wc-bretagne-2024/languages/wc-bretagne-2024.pot -- --exclude=/var/www/html/wp-content/plugins/wc-bretagne-2024/vendor --  --exclude=/var/www/html/wp-content/plugins/wc-bretagne-2024/src",
+    "i18n:make-json": "npm run env run cli wp i18n make-json -- --no-purge",
+    "packages-update": "wp-scripts packages-update"
+  },
+  "files": [
+    "admin/**",
+    "build/**",
+    "includes/**",
+    "languages/**",
+    "public/**",
+    "plugin.php",
+    "uninstall.php",
+    "wc-bretagne-2024.php",
+    "block.json",
+    "changelog.*",
+    "license.*",
+    "readme.",
+    "vendor"
+  ],
+  "engines": {
+    "node": ">=20",
+    "npm": ">=10"
+  },
+  "author": "beapi",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+  },
+  "dependencies": {
+    "@wordpress/scripts": "^27.2.6",
+    "@playwright/test": "^1.41.2",
+    "@wordpress/api-fetch": "^7.2.0",
+    "@wordpress/block-editor": "^13.2.0",
+    "@wordpress/blocks": "^13.2.0",
+    "@wordpress/components": "^28.2.0",
+    "@wordpress/compose": "^7.2.0",
+    "@wordpress/core-data": "^7.2.0",
+    "@wordpress/data": "^10.2.0",
+    "@wordpress/date": "^5.2.0",
+    "@wordpress/dom-ready": "^4.2.0",
+    "@wordpress/e2e-test-utils-playwright": "^1.2.0",
+    "@wordpress/editor": "^14.5.0",
+    "@wordpress/element": "^6.2.0",
+    "@wordpress/env": "^10.2.0",
+    "@wordpress/hooks": "^4.2.0",
+    "@wordpress/i18n": "^5.2.0",
+    "@wordpress/interface": "^6.5.0",
+    "@wordpress/icons": "^10.5.0",
+    "@wordpress/notices": "^5.2.0",
+    "@wordpress/plugins": "^7.5.0",
+    "@wordpress/url": "^4.2.0"
+  }
+}

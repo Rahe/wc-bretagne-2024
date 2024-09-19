@@ -1,0 +1,32 @@
+# Build assets
+/build
+
+# Logs
+*.log
+
+# Dotenv
+.env
+!.env.example
+!tests/.env
+
+# Composer
+/vendor
+
+# Release
+/bin/release/
+
+# Release zip
+/wc-bretagne-2024.zip
+
+# Tests
+/coverage/
+/artifacts/
+test-coverage-html/
+.phpunit.result.cache
+tests/playwright/artifacts/
+
+#Local
+.idea/
+
+# Remove node
+node_modules

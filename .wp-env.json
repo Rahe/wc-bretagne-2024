@@ -1,0 +1,11 @@
+{
+  "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/wp-env.json",
+  "phpVersion": "8.0",
+  "plugins": [
+    "."
+  ],
+  "mappings": {
+    "wp-cli.yml": "./tests/bin/wp-cli.yml",
+    ".htaccess": "./tests/bin/.htaccess"
+  }
+}

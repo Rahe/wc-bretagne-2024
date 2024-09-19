@@ -1,0 +1,52 @@
+{
+	"name": "wc-bretagne-2024/demo",
+	"description": "WC Bretagne",
+	"minimum-stability": "stable",
+	"license": "proprietary",
+	"authors": [
+		{
+			"name": "njuen",
+			"email": "njuen@eapi.fr"
+		}
+	],
+	"config": {
+		"optimize-autoloader": true,
+		"preferred-install": "dist",
+		"sort-packages": true,
+		"allow-plugins": {
+			"composer/installers": true,
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"phpro/grumphp-shim": true,
+			"roots/wordpress-core-installer": true
+		}
+	},
+	"prefer-stable": true,
+	"require": {
+		"php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0",
+		"ext-json": "*"
+	},
+	"autoload": {},
+	"require-dev": {
+		"wp-phpunit/wp-phpunit": "^6.4",
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"php-parallel-lint/php-parallel-lint": "^1.3",
+		"phpcompatibility/php-compatibility": "^9.3",
+		"phpcompatibility/phpcompatibility-wp": "^2.1",
+		"roave/security-advisories": "dev-latest",
+		"wp-coding-standards/wpcs": "^3.0",
+		"yoast/phpunit-polyfills": "^1.0"
+	},
+	"scripts": {
+		"cs": "./vendor/bin/phpcs",
+		"cbf": "./vendor/bin/phpcbf",
+		"lint": [
+			"bin/php-lint",
+			"@cs"
+		]
+	},
+	"scripts-descriptions": {
+		"cs": "Run PHP CodeSniffer on plugin codebase using our ruleset.",
+		"cbf": "Run PHP Code Beautifier and Fixer on plugin codebase using our ruleset.",
+		"lint": "Run all lint tasks."
+	}
+}

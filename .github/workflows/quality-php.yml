@@ -1,0 +1,30 @@
+name: PHP Quality Checks
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  checks:
+    name: Codesniffer
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0
+
+      - name: Validate composer file
+        run: composer validate
+
+      - name: Install composer dependencies
+        run: composer install -o
+
+      - name: Run codesniffer
+        run: composer cs
